@@ -1,0 +1,51 @@
+.container{
+    display: flex;
+    flex-direction: row;
+}
+
+.side-bar{
+    /* Define un ancho fijo para la barra */
+    width: 250px; 
+    
+    /* Evita que la barra se encoja si el contenido es muy grande */
+    flex-shrink: 0; 
+
+    background-color: #333;
+    color: white;
+    padding: 20px;
+}
+
+/* Estilos simples para los enlaces del menú */
+.side-bar nav ul {
+    list-style: none;
+    padding: 0;
+}
+.side-bar nav a {
+    color: #eee;
+    text-decoration: none;
+    display: block;
+    padding: 10px 0;
+}
+.side-bar nav a:hover {
+    background-color: #555;
+}
+
+.logo-img{
+    width: 20px;
+    height: auto;
+}
+
+.title-div{
+    margin-left: 10px;
+}
+
+.content-area{
+    /* ¡Esta es la clave! */
+    /* Le dice al contenido que ocupe todo el espacio restante */
+    flex-grow: 1; 
+
+    padding: 30px;
+    
+    /* Añade scroll solo a esta área si el contenido es muy largo */
+    overflow-y: auto; 
+}

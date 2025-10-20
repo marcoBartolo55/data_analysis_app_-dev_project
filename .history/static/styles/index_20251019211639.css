@@ -1,0 +1,141 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #f7f7f7;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    width: 120px;
+    height: auto;
+}
+
+.menu {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
+.menu li {
+    margin: 0;
+}
+
+.menu a {
+    color: #333;
+    font-size: 1.2rem;
+    text-decoration: none;
+}
+
+.menu a:hover {
+    color: #0077c0;
+}
+
+.menu-icon {
+    display: block;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    position: relative;
+}
+
+.menu-icon span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: #333;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease-in-out;
+}
+
+#menu-toggle:checked+.menu-icon span {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+#menu-toggle:checked+.menu-icon span:before {
+    transform: translate(-50%, -50%) rotate(-90deg);
+}
+
+#menu-toggle:checked+.menu-icon span:after {
+    transform: translate(-50%, -50%) rotate(90deg);
+}
+
+#menu-toggle:checked~.menu {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Hamburger button styles */
+.menu-button {
+    display: none; /* shown on small screens */
+    width: 44px;
+    height: 38px;
+    padding: 6px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+.menu-button .bar {
+    display: block;
+    width: 28px;
+    height: 3px;
+    background-color: #333;
+    margin: 5px 0;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    .menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        padding: 1.25rem 0;
+        background-color: #f7f7f7;
+        z-index: 50;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-8px);
+        transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+        align-items: center;
+    }
+
+    .menu li {
+        margin: 0.5rem 0;
+    }
+
+    .menu-button {
+        display: block;
+    }
+
+    .menu.open {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    /* animate button into X when open */
+    .menu-button.open .bar1 {
+        transform: translateY(8px) rotate(45deg);
+    }
+    .menu-button.open .bar2 {
+        opacity: 0;
+    }
+    .menu-button.open .bar3 {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+}
+

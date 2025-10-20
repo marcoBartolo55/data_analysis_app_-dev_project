@@ -1,0 +1,19 @@
+.main-div{
+    margin-left: 250px;
+}
+
+.side-bar{
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.main-content{
+    margin-left: 0;
+}
+
+.logo-img{
+    width: 20px;
+    height: auto;
+}
+
+.

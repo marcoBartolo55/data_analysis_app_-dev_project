@@ -1,0 +1,11 @@
+from flask import Flask
+
+# Nombra la instancia como 'app' (es la convención por defecto)
+app = Flask(__name__)
+
+@app.route('/')
+def suma():
+    return 5+2
+
+if __name__ == '__main__':
+    app.run(debug=True)
