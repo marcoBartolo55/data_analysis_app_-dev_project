@@ -1,0 +1,11 @@
+/* financial.css - inherits base cinema theme */
+@import url('/static/styles/index.css');
+
+/* Page-specific tweaks can go below. Keeping base aesthetics. */
+/* Example: tone down screen glow for financial page */
+.cinema-screen::before {
+  content: 'DATA ANALYSIS CINEMA'; /* keep same brand */
+}
+
+/* Optional: financial highlights */
+.feature-card h3 i { color: var(--cinema-gold); }

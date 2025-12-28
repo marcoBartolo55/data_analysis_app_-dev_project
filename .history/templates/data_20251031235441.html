@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/styles/data.css">
+    <link rel="stylesheet" href="../static/styles/chart.css">
+    <title>Data</title>
+</head>
+<body>
+    <div class="container">
+        <div class="side-bar">
+            <div class="logo-div">
+                <img class="logo-img" src="../static/images/logo.png" alt="Logo">
+            </div>
+            <div class="title-div">
+                <h2>Nombre de la aplicación</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('index') }}">Inicio</a></li>
+                    <li><a href="{{ url_for('data') }}">Extraer Información</a></li>
+                    <li><a href="{{ url_for('chart') }}">Análisis</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="content-area">
+            <h1>Extraer Información</h1>
+            <p>Aquí puedes extraer y gestionar la información de tus datos.</p>
+        </div>
+    </div>
+</body>
+</html>
