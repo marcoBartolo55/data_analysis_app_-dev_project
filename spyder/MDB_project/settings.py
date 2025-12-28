@@ -85,3 +85,16 @@ DOWNLOAD_DELAY = 1
 
 # Set settings whose default value is deprecated to a future-proof value
 FEED_EXPORT_ENCODING = "utf-8"
+
+# Output feeds and logging paths (relative to project root 'spyder/')
+FEEDS = {
+	"data/peliculas.json": {
+		"format": "json",
+		"encoding": "utf-8",
+		"indent": 2,
+		"overwrite": True,
+	}
+}
+
+LOG_FILE = "logs/scrapy.log"
+LOG_LEVEL = "INFO"
