@@ -87,12 +87,13 @@ DOWNLOAD_DELAY = 1
 FEED_EXPORT_ENCODING = "utf-8"
 
 # Output feeds and logging paths (relative to project root 'spyder/')
+# Use spider name and start time to avoid overwriting previous runs.
 FEEDS = {
-	"data/peliculas.json": {
+	"data/%(name)s-%(time)s.json": {
 		"format": "json",
 		"encoding": "utf-8",
 		"indent": 2,
-		"overwrite": True,
+		"overwrite": False,
 	}
 }
 
