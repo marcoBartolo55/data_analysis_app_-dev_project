@@ -1,0 +1,14 @@
+# Entorno virtual
+.venv/
+
+# Historia local de VS Code
+.history/
+
+# Archivos compilados de Python
+**/__pycache__/
+*.pyc
+
+# Logs y Datos
+spyder/logs/
+spyder/data/
+*.log
