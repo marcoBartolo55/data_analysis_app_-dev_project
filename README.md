@@ -1,14 +1,23 @@
 # Proyecto -- Evaluador de Películas
 
 ```shell
-#* Forma de iniciar la aplicación en Unix:
+#* Forma de iniciar la aplicación en Unix (recomendado desde la raíz del proyecto):
 python3 -m venv .venv                 # Crear entorno virtual (solo la primera vez)
 source .venv/bin/activate             # Activar el entorno
 python -m pip install --upgrade pip   # Actualizar pip
 python -m pip install -r requirements.txt  # Instalar dependencias del proyecto
-FLASK_APP=app.py flask run --debug          # Levantar la app Flask
-```
 
+# Levantar la app Flask
+flask --app app/app.py run --debug    
+cd ./app /
+
+
+# Alternativa (sin CLI de Flask):
+python3 app/app.py
+```
+Notas:
+- Si ejecutas `flask run` desde otro directorio (p. ej. `app/modules`), usa siempre `--app app/app.py` o muévete a la raíz.
+- El error de salida `2` suele indicar que Flask no encuentra `FLASK_APP`/`--app`. Usa las rutas anteriores.
 
 ```shell
 #* Formas de iniciar la aplicación en Windows (no se si funcionan apropiadamente):
@@ -16,7 +25,12 @@ py -3 -m venv .venv                  # Crear entorno virtual (solo la primera ve
 .venv\\Scripts\\activate            # Activar el entorno
 python -m pip install --upgrade pip  # Actualizar pip
 python -m pip install -r requirements.txt  # Instalar dependencias del proyecto
-set FLASK_APP=app.py && flask run    # Levantar la app Flask
+flask --app app\app.py run           # Levantar la app Flask
+```
+
+Para contar con todas las librerías para el funcionamiento correcto del proyecto, ejecutar el siguiente comnado en la línea de la terminal:
+```shell
+pip install -r requirements.txt
 ```
 
 
@@ -60,3 +74,5 @@ scrapy crawl tmdb
 - Mantén `data/` y `logs/` fuera de control de versiones (`.gitignore`).
 - Usa ambientes virtuales y variables de entorno para credenciales.
 - Versiona solo el código del spider y configuraciones, no los resultados.
+
+[pip freeze > requirements.txt --> Formas de guardar los requerimientos con los que cuenta la aplicación]:#

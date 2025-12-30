@@ -49,8 +49,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // 1. Efectos para la navegación
     navLinks.forEach(link => {
         link.addEventListener('mouseenter', function() {
-            // Efecto de sonido de butaca (simulado)
-            playSeatSound();
             
             // Efecto visual de resplandor
             link.style.boxShadow = '0 0 15px rgba(255, 0, 0, 0.5)';

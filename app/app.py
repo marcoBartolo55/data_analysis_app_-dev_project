@@ -1,4 +1,5 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
+import json
 import os
 
 #* Forma de iniciar la aplicación en Unix:
@@ -42,6 +43,19 @@ def successful():
 @app.route('/scraper')
 def scraper():
     return render_template('scaper.html')
+
+#* API: Películas (JSON)
+@app.route('/api/peliculas')
+def api_peliculas():
+    data_path = os.path.join(BASE_DIR, '../spyder/data/peliculas.json')
+    try:
+        with open(data_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        return jsonify(data)
+    except FileNotFoundError:
+        return jsonify({"error": "peliculas.json no encontrado"}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 #* Métodos operativos de la aplicación
 

@@ -1,10 +1,25 @@
-/* scaper.css - inherits base cinema theme */
+/* scaper.css - Importación del estilo base */
 @import url('/static/styles/index.css');
 
-/* Page-specific tweaks for scraping page */
+/* Ajustes específicos para la página de scraping */
 .cinema-screen::before {
   content: 'DATA ANALYSIS CINEMA';
 }
 
-/* Optional emphasis */
+/* Énfasis opcional */
 .feature-card h3 i { color: var(--cinema-accent); }
+
+/* Estilo tabla de scraping */ 
+.wrapper {
+  margin: 20px auto;
+  max-width: 1200px;
+}
+
+/* Tabla Grid.js en la página de scraping */
+#wrapper .gridjs-container { max-width: 100%; }
+#wrapper .gridjs-table { width: 100%; font-size: 0.95rem; }
+#wrapper .gridjs-th, #wrapper .gridjs-td { padding: 8px 10px; background-color: whitesmoke;}
+#wrapper .gridjs-tr:nth-child(even) { background: #f9fafb; }
+#wrapper .gridjs-search { margin: 8px 0; }
+#wrapper .gridjs-pagination { margin-top: 8px; }
+

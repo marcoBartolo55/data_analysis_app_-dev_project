@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/styles/scaper.css">
+    <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/palomitas.png') }}">
     <title>Web Scraping - Data Analysis Cinema</title>
 </head>
 <body>
@@ -19,7 +21,7 @@
                 <i class="fas fa-times"></i>
             </button>
             <div class="logo-div">
-                <img class="logo-img" src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+                <img class="logo-img" src="{{ url_for('static', filename='images/palomitas.png') }}" alt="Logo">
             </div>
             <div class="title-div">
                 <h2>Data Analysis Cinema</h2>
@@ -36,24 +38,13 @@
 
         <div class="content-area">
             <h1>Web Scraping</h1>
-            <p>Recopila datos de múltiples fuentes en tiempo real para análisis avanzado.</p>
-
-            <div class="features">
-                <div class="feature-card">
-                    <h3><i class="fas fa-database"></i> Fuentes</h3>
-                    <p>Selecciona y configura orígenes de datos.</p>
-                </div>
-                <div class="feature-card">
-                    <h3><i class="fas fa-cog"></i> Parsers</h3>
-                    <p>Define reglas de extracción y limpieza.</p>
-                </div>
-                <div class="feature-card">
-                    <h3><i class="fas fa-download"></i> Descargas</h3>
-                    <p>Ejecuta tareas y guarda resultados.</p>
-                </div>
-            </div>
+            <p>Visualización de los datos extraídos usando Web Scrapping, esto para saber que datos se usarán para hacer el análisis.</p>
+                <div id="wrapper"></div>
         </div>
     </div>
+
+    <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+    <script src="/static/js/table_scrapper.js"></script>
     <script src="/static/js/index.js"></script>
 </body>
 </html>
