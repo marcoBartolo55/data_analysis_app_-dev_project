@@ -55,7 +55,7 @@ class TmdbSpider(scrapy.Spider):
 
         credits_url = (
             f"https://api.themoviedb.org/3/movie/{movie_id}/credits"
-            f"?api_key={self.api_key}&language={self.language}"
+            f"?api_key={self.api_key}"
         )
 
         yield scrapy.Request(
@@ -68,12 +68,18 @@ class TmdbSpider(scrapy.Spider):
         data = json.loads(response.text)
         movie = response.meta["movie"]
 
-        director = None
-        for person in data["crew"]:
-            if person["job"] == "Director":
-                director = person["name"]
-                break
-            
+        directors = [
+            {"id": p["id"], "name": p["name"]}
+            for p in data.get("crew", [])
+            if p.get("job") == "Director"
+        ]
+
+        writers = [
+            {"id": p["id"], "name": p["name"], "job": p["job"]}
+            for p in data.get("crew", [])
+            if p.get("job") in ("Writer", "Screenplay", "Story")
+        ]
+
         yield {
             "id": movie["id"],
             "title": movie["title"],
@@ -84,11 +90,7 @@ class TmdbSpider(scrapy.Spider):
             "votes": movie["vote_count"],
             "budget": movie["budget"],
             "revenue": movie["revenue"],
-            "language": movie["original_language"]
+            "language": movie["original_language"],
+            "directors": directors,
+            "writers": writers
         }
-
-
-        
-
-
-    

@@ -7,10 +7,10 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = "MDB_project"
+BOT_NAME = 'mdb_project'
 
-SPIDER_MODULES = ["MDB_project.spiders"]
-NEWSPIDER_MODULE = "MDB_project.spiders"
+SPIDER_MODULES = ['mdb_project.spiders']
+NEWSPIDER_MODULE = 'mdb_project.spiders'
 
 ADDONS = {}
 
@@ -97,5 +97,5 @@ FEEDS = {
 	}
 }
 
-LOG_FILE = "logs/scrapy.log"
+#LOG_FILE = "logs/scrapy.log"
 LOG_LEVEL = "INFO"
