@@ -6,6 +6,7 @@ class Movie:
         base_path = os.path.dirname(os.path.abspath(__file__))
         self.filepath = os.path.join(base_path, '..', '..', 'spyder', 'data', filename)
         self.data = None
+        self.load_data()
 
     def load_data(self):
         try:
