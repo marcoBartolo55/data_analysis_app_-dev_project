@@ -13,5 +13,4 @@ spyder/**/__pycache__/
 
 # Logs y Datos
 spyder/logs/
-spyder/data/
 *.log

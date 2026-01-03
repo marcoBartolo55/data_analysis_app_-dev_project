@@ -16,7 +16,7 @@ cd ./app /
 python3 app/app.py
 ```
 Notas:
-- Si ejecutas `flask run` desde otro directorio (p. ej. `app/modules`), usa siempre `--app app/app.py` o muévete a la raíz.
+- Si ejecutas `flask run` desde otro directorio (p. ej. `app/modules`), usa siempre `--app app/app.py` o muévete a la raíz donde se inicia el aplicación `app.py`.
 - El error de salida `2` suele indicar que Flask no encuentra `FLASK_APP`/`--app`. Usa las rutas anteriores.
 
 ```shell
