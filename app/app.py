@@ -18,10 +18,6 @@ def index():
 def financial():
     return render_template('financial.html')
 
-@app.route('/successful')
-def successful():
-    return render_template('succesful.html')
-
 @app.route('/scraper')
 def scraper():
     return render_template('scaper.html')

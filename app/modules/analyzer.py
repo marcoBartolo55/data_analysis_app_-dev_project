@@ -39,10 +39,6 @@ class Analyzer:
             df = df.loc[df[cols].notna().all(axis=1) & (df[cols] > 0).all(axis=1)]
             self.movie.data = df
         return self.movie
-
-    # Limpiar roles de las personas (directores, guionistas,...)
-    def clean_roles(self):
-        pass
     
     # Limpiar valores con duración cero
     def clean_duration(self):
@@ -66,6 +62,8 @@ class Analyzer:
     def calculta_covariance(self, var_a, var_b):
         covariance = np.cov(self.movie.data[var_a], self.movie.data[var_b])
         return covariance
+    
+    
 
     def __init__(self, movie_instance: movie.Movie):
         # Recibe Movie para continuar el pipeline
