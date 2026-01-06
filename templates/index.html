@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/styles/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/palomitas.png') }}">
+    <link rel="icon" type="image/png" href="{{ request.url_for('static', path='images/palomitas.png') }}">
     <title>Inicio - Data Analysis Cinema</title>
 </head>
 <body>
@@ -16,16 +16,16 @@
     <div class="container">
         <div class="side-bar" id="sidebar">
             <div class="logo-div">
-                <img class="logo-img" src="../static/images/palomitas.png" alt="Logo">
+                <img class="logo-img" src="/static/images/palomitas.png" alt="Logo">
             </div>
             <div class="title-div">
                 <h2>Data Analysis Cinema</h2>
             </div>
             <nav>
                 <ul>
-                    <li><a href="{{ url_for('index') }}"><i class="fas fa-home"></i> Inicio</a></li>
-                    <li><a href="{{ url_for('scraper') }}"><i class="fas fa-globe"></i> Web Scraping</a></li>
-                    <li><a href="{{ url_for('financial') }}"><i class="fas fa-chart-line"></i> Análisis Estadístico</a></li>
+                    <li><a href="{{ request.url_for('index') }}"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li><a href="{{ request.url_for('scraper') }}"><i class="fas fa-globe"></i> Web Scraping</a></li>
+                    <li><a href="{{ request.url_for('financial') }}"><i class="fas fa-chart-line"></i> Análisis Estadístico</a></li>
                 </ul>
             </nav>
         </div>
