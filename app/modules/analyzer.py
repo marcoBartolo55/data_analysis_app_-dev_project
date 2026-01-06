@@ -81,7 +81,6 @@ class Analyzer:
         df = self.movie.data
         if df is None:
             return df
-        # attempt to filter by 'genres' list/str or single 'genre'
         if 'genres' in df.columns:
             def has_gen(x):
                 if isinstance(x, list):
