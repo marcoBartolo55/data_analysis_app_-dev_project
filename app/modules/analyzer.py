@@ -77,13 +77,6 @@ class Analyzer:
         covariance = np.cov(df[var_a], df[var_b])
         return covariance
 
-    # Backwards-compat wrappers for previous misspelled methods
-    def calculata_roi(self):
-        return self.calculate_roi()
-
-    def calculta_covariance(self, var_a, var_b):
-        return self.calculate_covariance(var_a, var_b)
-
     def calculate_roi_by_genre(self, genre: str):
         df = self.movie.data
         if df is None:
@@ -107,14 +100,4 @@ class Analyzer:
     
 
     def __init__(self, movie_instance: movie.Movie):
-        # Recibe Movie para continuar el pipeline
         self.movie = movie_instance
-        
-
-
-# Aplicación de funciones para limpiar los datos
-
-
-
-# Análisis de los datos
-

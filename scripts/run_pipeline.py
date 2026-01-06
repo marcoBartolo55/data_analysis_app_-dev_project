@@ -10,23 +10,7 @@ from visualizer import Visualizer
 import matplotlib
 matplotlib.use('Agg')
 
-def roi_analysis():
-    movie = Movie()
-    print('Datos cargados para análisis financiero:', getattr(movie.data, 'shape', None))
-    
-    analyzer = Analyzer(movie)
-    analyzer.clean_budget_revenue()
-    print('Filas tras limpieza:', len(analyzer.movie.data))
-    
-    analyzer.calculate_roi()
-    
-
-def succesuful_analysis():
-    movie = Movie()
-    print(('Datos cargados para análisis de éxito:', getattr(movie.data, 'shape', None)))
-    
-    analyzer = Analyzer(movie)
-
+ 
 def matrix_correlation():
     movie = Movie()
     print('Datos cargados:', getattr(movie.data, 'shape', None))
@@ -82,8 +66,3 @@ def scatter_plot(x_var, y_var):
     visualizer.scatter_plot(x_var, y_var)
     img_path = os.path.join(ROOT, 'static', 'images', 'scatter_varx_vs_vary.png')
     print('Imagen guardada:', os.path.exists(img_path), img_path)
-
-
-
-if __name__ == '__main__':
-    matrix_correlation()
