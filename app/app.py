@@ -5,6 +5,7 @@ from fastapi.templating import Jinja2Templates
 import json
 import os
 from typing import Optional
+from app.modules.movie import Movie
 
 # Pipeline functions
 try:
@@ -23,6 +24,48 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 templates = Jinja2Templates(directory=TEMPLATES_DIR)
 
+def get_genres_from_db():
+    try:
+        movie = Movie()
+        df = movie.data
+        genres_set = set()
+        if df is None:
+            return []
+        if 'genres' in df.columns:
+            for val in df['genres'].dropna():
+                if isinstance(val, list):
+                    for g in val:
+                        if g and isinstance(g, str):
+                            genres_set.add(g.strip())
+                elif isinstance(val, str):
+                    for g in [p.strip() for p in val.split(',')]:
+                        if g:
+                            genres_set.add(g)
+        elif 'genre' in df.columns:
+            for val in df['genre'].dropna():
+                if isinstance(val, list):
+                    for g in val:
+                        if g and isinstance(g, str):
+                            genres_set.add(g.strip())
+                else:
+                    for g in [p.strip() for p in str(val).split(',')]:
+                        if g:
+                            genres_set.add(g)
+        return sorted(genres_set)
+    except Exception:
+        return []
+
+def get_numeric_columns_from_db():
+    try:
+        movie = Movie()
+        df = movie.data
+        if df is None:
+            return []
+        num_cols = df.select_dtypes(include='number').columns.tolist()
+        return sorted(num_cols)
+    except Exception:
+        return []
+
 # Rutas de la aplicación
 @app.get("/")
 def index(request: Request):
@@ -30,12 +73,22 @@ def index(request: Request):
 
 @app.get("/data_analysis")
 def data_analysis(request: Request):
-    return templates.TemplateResponse("data_analysis.html", {"request": request})
+    genres = get_genres_from_db()
+    numeric_columns = get_numeric_columns_from_db()
+    return templates.TemplateResponse(
+        "data_analysis.html",
+        {"request": request, "genres": genres, "numeric_columns": numeric_columns}
+    )
 
 # Alias para compatibilidad con enlaces existentes
 @app.get("/financial", name="financial")
 def financial(request: Request):
-    return templates.TemplateResponse("data_analysis.html", {"request": request})
+    genres = get_genres_from_db()
+    numeric_columns = get_numeric_columns_from_db()
+    return templates.TemplateResponse(
+        "data_analysis.html",
+        {"request": request, "genres": genres, "numeric_columns": numeric_columns}
+    )
 
 @app.get("/scraper")
 def scraper(request: Request):

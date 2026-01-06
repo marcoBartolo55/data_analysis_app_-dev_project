@@ -10,7 +10,7 @@ class Visualizer:
 
     # Generación de la matriz de correlación
     def display_matrix_correlation(self, matrix):
-        plt.figure(figsize=(10,8))
+        plt.figure(figsize=(20,15))
         sns.heatmap(
             matrix,
             annot=True,
@@ -26,7 +26,7 @@ class Visualizer:
         
     def display_roi_chart(self):
         roi_data = self.analyzer.calculate_roi()
-        plt.figure(figsize=(10,6))
+        plt.figure(figsize=(20,15))
         if roi_data is not None and not roi_data.empty:
             sns.barplot(x='title', y='roi', data=roi_data)
         plt.xticks(rotation=90)
@@ -40,7 +40,7 @@ class Visualizer:
         
     def display_roi_chart_by_genre(self, genre):
         roi_data = self.analyzer.calculate_roi_by_genre(genre)
-        plt.figure(figsize=(10,6))
+        plt.figure(figsize=(20,15))
         if roi_data is not None and not roi_data.empty:
             sns.barplot(x='title', y='roi', data=roi_data)
         plt.xticks(rotation=90)
@@ -53,7 +53,7 @@ class Visualizer:
         plt.close()
         
     def scatter_plot(self, x_var, y_var):
-        plt.figure(figsize=(10,6))
+        plt.figure(figsize=(20,15))
         if x_var in self.data.columns and y_var in self.data.columns:
             sns.scatterplot(x=self.data[x_var], y=self.data[y_var])
         plt.title(f'Scatter Plot de {x_var} vs {y_var}')

@@ -66,9 +66,13 @@
                         <h2>ROI por género</h2>
                         <div class="controls">
                             <select id="genreSelect">
-                                <option value="Action">Action</option>
-                                <option value="Drama">Drama</option>
-                                <option value="Comedy">Comedy</option>
+                                {% if genres and genres|length > 0 %}
+                                    {% for g in genres %}
+                                        <option value="{{ g }}">{{ g }}</option>
+                                    {% endfor %}
+                                {% else %}
+                                    <option disabled>No genres found</option>
+                                {% endif %}
                             </select>
                             <button id="genRoiGenreBtn">Generar ROI por género</button>
                         </div>
@@ -79,11 +83,29 @@
 
                     <div class="chart-item" id="scatterSection">
                         <h2>Scatter</h2>
-                        <div class="controls">
-                            <input id="scatterX" placeholder="Variable X" />
-                            <input id="scatterY" placeholder="Variable Y" />
-                            <button id="genScatterBtn">Generar Scatter</button>
-                        </div>
+                            <div class="controls">
+                                <label for="scatterX">Variable X</label>
+                                <select id="scatterX">
+                                    {% if numeric_columns and numeric_columns|length > 0 %}
+                                        {% for c in numeric_columns %}
+                                            <option value="{{ c }}">{{ c }}</option>
+                                        {% endfor %}
+                                    {% else %}
+                                        <option disabled>No numeric columns found</option>
+                                    {% endif %}
+                                </select>
+                                <label for="scatterY">Variable Y</label>
+                                <select id="scatterY">
+                                    {% if numeric_columns and numeric_columns|length > 0 %}
+                                        {% for c in numeric_columns %}
+                                            <option value="{{ c }}">{{ c }}</option>
+                                        {% endfor %}
+                                    {% else %}
+                                        <option disabled>No numeric columns found</option>
+                                    {% endif %}
+                                </select>
+                                <button id="genScatterBtn">Generar Scatter</button>
+                            </div>
                         <div class="chart-content">
                             <img id="scatterImg" alt="Scatter plot" style="max-width:100%;" />
                         </div>
