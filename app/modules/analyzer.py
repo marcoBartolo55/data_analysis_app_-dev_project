@@ -64,7 +64,6 @@ class Analyzer:
         roi_series = ((safe['revenue'] - safe['budget']) / safe['budget']) * 100
         out = safe.copy()
         out = out.assign(roi=roi_series)
-        # keep only likely useful columns if present
         keep = [c for c in ['title', 'roi'] if c in out.columns]
         return out[keep] if keep else out
 
