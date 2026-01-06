@@ -53,15 +53,56 @@ class Analyzer:
 # Uso de los datos para obtener información
     
     # Calculo del Retorno de Inversión (ROI)
-    def calculata_roi(self):
-        roi = ((self.movie.data['revenue'] - self.movie.data['budget']) / self.movie.data['budget']) * 100
-        return roi
+    def calculate_roi(self):
+        df = self.movie.data
+        if df is None:
+            return df
+        cols = ['budget', 'revenue']
+        if not all(c in df.columns for c in cols):
+            return df
+        safe = df.loc[df[cols].notna().all(axis=1) & (df['budget'] > 0)]
+        roi_series = ((safe['revenue'] - safe['budget']) / safe['budget']) * 100
+        out = safe.copy()
+        out = out.assign(roi=roi_series)
+        # keep only likely useful columns if present
+        keep = [c for c in ['title', 'roi'] if c in out.columns]
+        return out[keep] if keep else out
 
     # Calculo de la covarianza entre dos variables
     #!  Agregar etiquetas select para calcular los valores
-    def calculta_covariance(self, var_a, var_b):
-        covariance = np.cov(self.movie.data[var_a], self.movie.data[var_b])
+    def calculate_covariance(self, var_a, var_b):
+        df = self.movie.data
+        if df is None or var_a not in df.columns or var_b not in df.columns:
+            return None
+        covariance = np.cov(df[var_a], df[var_b])
         return covariance
+
+    # Backwards-compat wrappers for previous misspelled methods
+    def calculata_roi(self):
+        return self.calculate_roi()
+
+    def calculta_covariance(self, var_a, var_b):
+        return self.calculate_covariance(var_a, var_b)
+
+    def calculate_roi_by_genre(self, genre: str):
+        df = self.movie.data
+        if df is None:
+            return df
+        # attempt to filter by 'genres' list/str or single 'genre'
+        if 'genres' in df.columns:
+            def has_gen(x):
+                if isinstance(x, list):
+                    return genre in x
+                if isinstance(x, str):
+                    return genre.lower() in x.lower()
+                return False
+            filtered = df.loc[df['genres'].apply(has_gen)]
+        elif 'genre' in df.columns:
+            filtered = df.loc[df['genre'].astype(str).str.lower() == genre.lower()]
+        else:
+            filtered = df
+        self.movie.data = filtered
+        return self.calculate_roi()
     
     
 

@@ -1,0 +1,55 @@
+/* data_analysis.css - inherits base cinema theme */
+@import url('/static/styles/index.css');
+
+/* Page-specific tweaks can go below. Keeping base aesthetics. */
+.cinema-screen::before {
+  content: 'DATA ANALYSIS CINEMA';
+}
+
+.feature-card h3 i { color: var(--cinema-gold); }
+
+/* Charts layout and separation */
+.charts {
+  margin-top: 16px;
+}
+
+.chart-item {
+  background: #fafafa;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.chart-item h2 {
+  margin-top: 0;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 12px;
+}
+
+.controls input,
+.controls select,
+.controls button {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.chart-content {
+  overflow: auto;
+}
+
+.chart-content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+}

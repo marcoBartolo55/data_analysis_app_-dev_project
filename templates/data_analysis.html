@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles/data_analysis.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="{{ request.url_for('static', path='images/palomitas.png') }}">
+    <title>Análisis Financiero - Data Analysis Cinema</title>
+</head>
+<body>
+    <!-- Botón hamburguesa -->
+    <button class="hamburger-btn" id="hamburgerBtn">
+        <i class="fas fa-bars"></i>
+    </button>
+    <div class="overlay" id="overlay"></div>
+
+    <div class="container">
+        <div class="side-bar" id="sidebar">
+            <button class="close-btn" id="closeBtn">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="logo-div">
+                <img class="logo-img" src="{{ request.url_for('static', path='images/palomitas.png') }}" alt="Logo">
+            </div>
+            <div class="title-div">
+                <h2>Data Analysis Cinema</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ request.url_for('index') }}"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li><a href="{{ request.url_for('scraper') }}"><i class="fas fa-globe"></i> Web Scraping</a></li>
+                    <li><a href="{{ request.url_for('financial') }}"><i class="fas fa-chart-line"></i> Análisis Financiero</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="content-area">
+            <h1>Análisis Financiero</h1>
+            <p>Evalúa y visualiza datos financieros con gráficos interactivos.</p>
+
+        <div class="financial-content">
+            <div class="finanical-data">
+                <div class="roi-info">
+                    <h2>Información ROI</h2>
+                    <p>ROI hace referencia al Retorno sobre la Inversión, esto nos permite determinar si ha sido rentable, al superar el punto de equilibrio donde la inversión y el retorno es el mismo.</p>
+                </div>
+                <div class="charts">
+                    <div class="chart-item" id="corrMatrixSection">
+                        <h2>Matriz de correlación</h2>
+                        <div class="chart-content">
+                            <img id="corrMatrixImg" alt="Matriz de correlación" style="max-width:100%;" />
+                        </div>
+                    </div>
+
+                    <div class="chart-item" id="roiGeneralSection">
+                        <h2>ROI general</h2>
+                        <div class="controls">
+                            <button id="genRoiBtn">Generar ROI</button>
+                        </div>
+                        <div class="chart-content">
+                            <img id="roiChartImg" alt="Gráfico ROI" style="max-width:100%;" />
+                        </div>
+                    </div>
+
+                    <div class="chart-item" id="roiGenreSection">
+                        <h2>ROI por género</h2>
+                        <div class="controls">
+                            <select id="genreSelect">
+                                <option value="Action">Action</option>
+                                <option value="Drama">Drama</option>
+                                <option value="Comedy">Comedy</option>
+                            </select>
+                            <button id="genRoiGenreBtn">Generar ROI por género</button>
+                        </div>
+                        <div class="chart-content">
+                            <img id="roiGenreImg" alt="ROI por género" style="max-width:100%;" />
+                        </div>
+                    </div>
+
+                    <div class="chart-item" id="scatterSection">
+                        <h2>Scatter</h2>
+                        <div class="controls">
+                            <input id="scatterX" placeholder="Variable X" />
+                            <input id="scatterY" placeholder="Variable Y" />
+                            <button id="genScatterBtn">Generar Scatter</button>
+                        </div>
+                        <div class="chart-content">
+                            <img id="scatterImg" alt="Scatter plot" style="max-width:100%;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <script src="/static/js/index.js"></script>
+    <script src="/static/js/financial.js"></script>
+    </body>
+    </html>
