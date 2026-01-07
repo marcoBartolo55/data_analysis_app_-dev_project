@@ -66,3 +66,79 @@ def scatter_plot(x_var, y_var):
     visualizer.scatter_plot(x_var, y_var)
     img_path = os.path.join(ROOT, 'static', 'images', 'scatter_varx_vs_vary.png')
     print('Imagen guardada:', os.path.exists(img_path), img_path)
+
+def detect_and_translate_titles(save_csv=False):
+    movie = Movie()
+    print('Datos cargados para detección/traducción:', getattr(movie.data, 'shape', None))
+
+    analyzer = Analyzer(movie)
+    analyzer.detect_language()
+
+    df = analyzer.movie.data
+    print('Columnas disponibles:', list(df.columns))
+    if 'lan-detected' in df.columns:
+        counts = df['lan-detected'].value_counts(dropna=False).to_dict()
+        print('Idiomas detectados (conteo):', counts)
+    else:
+        print('No se pudo detectar idioma: columna lan-detected ausente')
+
+    if 'title-translated' in df.columns:
+        preview = df[['title', 'lan-detected', 'title-translated']].head(10)
+        print('Vista previa traducciones (primeras 10 filas):')
+        print(preview)
+
+    if save_csv:
+        out_path = os.path.join(ROOT, 'static', 'translations.csv')
+        try:
+            df.to_csv(out_path, index=False)
+            print('CSV guardado:', os.path.exists(out_path), out_path)
+        except Exception as e:
+            print('Error al guardar CSV:', e)
+
+def ml_train():
+    # Importar perezosamente para no romper otros endpoints si ML no está disponible
+    try:
+        from machine_learning import MachineLearning
+    except Exception as e:
+        raise RuntimeError(f"Machine Learning no disponible: {e}")
+
+    movie = Movie()
+    print('Datos cargados para ML:', getattr(movie.data, 'shape', None))
+
+    ml = MachineLearning(movie)
+    try:
+        rows, features = ml.fit()
+        print('Modelo entrenado con filas:', rows)
+        print('Features usadas:', features)
+        return {
+            'rows': rows,
+            'features': features
+        }
+    except Exception as e:
+        print('Error entrenando ML:', e)
+        raise
+
+def ml_predict(budget: float, genre: str):
+    # Importar perezosamente para no romper otros endpoints si ML no está disponible
+    try:
+        from machine_learning import MachineLearning
+    except Exception as e:
+        raise RuntimeError(f"Machine Learning no disponible: {e}")
+
+    movie = Movie()
+    ml = MachineLearning(movie)
+    try:
+        # Ensure model trained
+        ml.fit()
+        revenue = ml.predict_revenue_by_genre(budget, genre)
+        roi = ml.predict_roi_by_genre(budget, genre)
+        print(f'Predicción -> género: {genre}, presupuesto: {budget}, ingreso: {revenue}, ROI: {roi}%')
+        return {
+            'genre': genre,
+            'budget': budget,
+            'predicted_revenue': revenue,
+            'predicted_roi_pct': roi
+        }
+    except Exception as e:
+        print('Error prediciendo ML:', e)
+        raise

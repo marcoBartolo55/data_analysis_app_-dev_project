@@ -1,8 +1,12 @@
 import movie
 import pandas as pd
 import numpy as np
+from googletrans import Translator
 
 #! Limpieza de datos fecha, duración, rating, valoración, presupuesto, recaudación, guionistas, ...
+
+translator = Translator()
+
 class Analyzer:
 
 # Limpieza de los datos
@@ -68,7 +72,6 @@ class Analyzer:
         return out[keep] if keep else out
 
     # Calculo de la covarianza entre dos variables
-    #!  Agregar etiquetas select para calcular los valores
     def calculate_covariance(self, var_a, var_b):
         df = self.movie.data
         if df is None or var_a not in df.columns or var_b not in df.columns:
@@ -76,17 +79,20 @@ class Analyzer:
         covariance = np.cov(df[var_a], df[var_b])
         return covariance
 
+    # Calculo del ROI por género
     def calculate_roi_by_genre(self, genre: str):
         df = self.movie.data
         if df is None:
             return df
         if 'genres' in df.columns:
+            
             def has_gen(x):
                 if isinstance(x, list):
                     return genre in x
                 if isinstance(x, str):
                     return genre.lower() in x.lower()
                 return False
+            
             filtered = df.loc[df['genres'].apply(has_gen)]
         elif 'genre' in df.columns:
             filtered = df.loc[df['genre'].astype(str).str.lower() == genre.lower()]
@@ -96,6 +102,90 @@ class Analyzer:
         return self.calculate_roi()
     
     
+    def detect_language(self):
+        df = self.movie.data
+        if df is None:
+            return self.movie
+        if 'title' in df.columns:
+            titles = df['title'].astype(str)
+            cache = {}
+            trans_cache = {}
+
+            def detect_one(t):
+                if not t or t.lower() == 'nan':
+                    return None
+                if t in cache:
+                    return cache[t]
+                try:
+                    res = translator.detect(t)
+                    lang = getattr(res, 'lang', None)
+                    cache[t] = lang
+                    return lang
+                except Exception:
+                    return None
+
+            df = df.assign(**{'lan-detected': titles.apply(detect_one)})
+
+            def translate_if_needed(t, lang):
+                if not t or t.lower() == 'nan':
+                    return None
+                if lang is None:
+                    return None
+                if str(lang).lower() in ('es', 'en'):
+                    return t
+                key = (t, 'es')
+                if key in trans_cache:
+                    return trans_cache[key]
+                try:
+                    res = translator.translate(t, dest='es')
+                    text = getattr(res, 'text', t)
+                    trans_cache[key] = text
+                    return text
+                except Exception:
+                    return t
+
+            df = df.assign(**{
+                'title-translated': df.apply(lambda row: translate_if_needed(str(row['title']), row['lan-detected']), axis=1)
+            })
+            self.movie.data = df
+            return self.movie
+        else:
+            df = df.copy()
+            df['lan-detected'] = None
+            df['title-translated'] = None
+            self.movie.data = df
+            return self.movie
+        
+        
+    def translate_titles(self):
+        df = self.movie.data
+        if df is None:
+            return self.movie
+        if 'title' in df.columns:
+            titles = df['title'].astype(str)
+            cache = {}
+            
+            def translate_one(t):
+                if not t or t.lower() == 'nan':
+                    return t
+                if t in cache:
+                    return cache[t]
+                try:
+                    res = translator.translate(t, dest='en')
+                    translated = getattr(res, 'text', t)
+                    cache[t] = translated
+                    return translated
+                except Exception:
+                    return t
+
+            df = df.assign(**{'title-translated': titles.apply(translate_one)})
+            self.movie.data = df
+            return self.movie
+        else:
+            df = df.copy()
+            df['title-translated'] = None
+            self.movie.data = df
+            return self.movie
 
     def __init__(self, movie_instance: movie.Movie):
         self.movie = movie_instance

@@ -9,12 +9,14 @@ from app.modules.movie import Movie
 
 # Pipeline functions
 try:
-    from scripts.run_pipeline import matrix_correlation, roi_chart, roi_chart_by_genre, scatter_plot
+    from scripts.run_pipeline import matrix_correlation, roi_chart, roi_chart_by_genre, scatter_plot, ml_train, ml_predict
 except Exception:
     matrix_correlation = None
     roi_chart = None
     roi_chart_by_genre = None
     scatter_plot = None
+    ml_train = None
+    ml_predict = None
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 TEMPLATES_DIR = os.path.join(BASE_DIR, '../templates')
@@ -137,6 +139,31 @@ def api_roi_chart_by_genre(genre: Optional[str] = None):
     try:
         roi_chart_by_genre(genre)
         return {"image": "/static/images/roi_chart_genre.png", "genre": genre}
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=500)
+
+# Machine Learning API
+@app.post("/api/ml/train")
+def api_ml_train():
+    if ml_train is None:
+        return JSONResponse(content={"error": "run_pipeline no disponible"}, status_code=500)
+    try:
+        res = ml_train()
+        return res
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=500)
+
+@app.post("/api/ml/predict")
+def api_ml_predict(budget: float, genre: str):
+    if ml_predict is None:
+        return JSONResponse(content={"error": "run_pipeline no disponible"}, status_code=500)
+    if budget is None or budget <= 0:
+        return JSONResponse(content={"error": "Presupuesto inválido"}, status_code=400)
+    if not genre:
+        return JSONResponse(content={"error": "Parámetro 'genre' requerido"}, status_code=400)
+    try:
+        res = ml_predict(budget, genre)
+        return res
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
 

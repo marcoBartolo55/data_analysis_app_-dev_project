@@ -30,42 +30,105 @@
                 <ul>
                     <li><a href="{{ request.url_for('index') }}"><i class="fas fa-home"></i> Inicio</a></li>
                     <li><a href="{{ request.url_for('scraper') }}"><i class="fas fa-globe"></i> Web Scraping</a></li>
-                    <li><a href="{{ request.url_for('financial') }}"><i class="fas fa-chart-line"></i> Análisis Financiero</a></li>
+                    <li><a href="{{ request.url_for('financial') }}"><i class="fas fa-chart-line"></i> Análisis Estadístico</a></li>
                 </ul>
             </nav>
         </div>
         <div class="content-area">
-            <h1>Análisis Financiero</h1>
-            <p>Evalúa y visualiza datos financieros con gráficos interactivos.</p>
+            <h1>Análisis Estadístico</h1>
+            <p>Evalúa y visualiza datos estadísticos con gráficos interactivos.</p>
 
-        <div class="financial-content">
-            <div class="finanical-data">
-                <div class="roi-info">
-                    <h2>Información ROI</h2>
-                    <p>ROI hace referencia al Retorno sobre la Inversión, esto nos permite determinar si ha sido rentable, al superar el punto de equilibrio donde la inversión y el retorno es el mismo.</p>
+            <div class="financial-content">
+                <div class="finanical-data">
+                    <div class="roi-info">
+                        <h2>Información ROI</h2>
+                        <p>ROI hace referencia al Retorno sobre la Inversión, esto nos permite determinar si ha sido rentable, al superar el punto de equilibrio donde la inversión y el retorno es el mismo.</p>
+                    </div>
+                    <div class="charts">
+                        <div class="chart-item" id="corrMatrixSection">
+                            <h2>Matriz de correlación</h2>
+                            <div class="chart-content">
+                                <img id="corrMatrixImg" alt="Matriz de correlación" style="max-width:100%;" />
+                            </div>
+                        </div>
+
+                        <div class="chart-item" id="roiGeneralSection">
+                            <h2>ROI general</h2>
+                            <div class="controls">
+                                <button id="genRoiBtn">Generar ROI</button>
+                            </div>
+                            <div class="chart-content">
+                                <img id="roiChartImg" alt="Gráfico ROI" style="max-width:100%;" />
+                            </div>
+                        </div>
+
+                        <div class="chart-item" id="roiGenreSection">
+                            <h2>ROI por género</h2>
+                            <div class="controls">
+                                <select id="genreSelect">
+                                    {% if genres and genres|length > 0 %}
+                                        {% for g in genres %}
+                                            <option value="{{ g }}">{{ g }}</option>
+                                        {% endfor %}
+                                    {% else %}
+                                        <option disabled>No genres found</option>
+                                    {% endif %}
+                                </select>
+                                <button id="genRoiGenreBtn">Generar ROI por género</button>
+                            </div>
+                            <div class="chart-content">
+                                <img id="roiGenreImg" alt="ROI por género" style="max-width:100%;" />
+                            </div>
+                        </div>
+
+                        <div class="chart-item" id="scatterSection">
+                            <h2>Scatter</h2>
+                                <div class="controls">
+                                    <label for="scatterX">Variable X</label>
+                                    <select id="scatterX">
+                                        {% if numeric_columns and numeric_columns|length > 0 %}
+                                            {% for c in numeric_columns %}
+                                                <option value="{{ c }}">{{ c }}</option>
+                                            {% endfor %}
+                                        {% else %}
+                                            <option disabled>No numeric columns found</option>
+                                        {% endif %}
+                                    </select>
+                                    <label for="scatterY">Variable Y</label>
+                                    <select id="scatterY">
+                                        {% if numeric_columns and numeric_columns|length > 0 %}
+                                            {% for c in numeric_columns %}
+                                                <option value="{{ c }}">{{ c }}</option>
+                                            {% endfor %}
+                                        {% else %}
+                                            <option disabled>No numeric columns found</option>
+                                        {% endif %}
+                                    </select>
+                                    <button id="genScatterBtn">Generar Scatter</button>
+                                </div>
+                            <div class="chart-content">
+                                <img id="scatterImg" alt="Scatter plot" style="max-width:100%;" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="charts">
-                    <div class="chart-item" id="corrMatrixSection">
-                        <h2>Matriz de correlación</h2>
+                <div class="machine-learning-data">
+                    <h2>Análisis Predictivo con Machine Learning</h2>
+                    <div class="chart-item" id="mlTrainSection">
+                        <h2>Entrenar Modelo</h2>
+                        <div class="controls">
+                            <button id="mlTrainBtn">Entrenar</button>
+                        </div>
                         <div class="chart-content">
-                            <img id="corrMatrixImg" alt="Matriz de correlación" style="max-width:100%;" />
+                            <pre id="mlTrainOutput" class="pre-output"></pre>
                         </div>
                     </div>
 
-                    <div class="chart-item" id="roiGeneralSection">
-                        <h2>ROI general</h2>
+                    <div class="chart-item" id="mlPredictSection">
+                        <h2>Predecir Ingresos/ROI por Género</h2>
                         <div class="controls">
-                            <button id="genRoiBtn">Generar ROI</button>
-                        </div>
-                        <div class="chart-content">
-                            <img id="roiChartImg" alt="Gráfico ROI" style="max-width:100%;" />
-                        </div>
-                    </div>
-
-                    <div class="chart-item" id="roiGenreSection">
-                        <h2>ROI por género</h2>
-                        <div class="controls">
-                            <select id="genreSelect">
+                            <label for="mlGenreSelect">Género</label>
+                            <select id="mlGenreSelect">
                                 {% if genres and genres|length > 0 %}
                                     {% for g in genres %}
                                         <option value="{{ g }}">{{ g }}</option>
@@ -74,48 +137,20 @@
                                     <option disabled>No genres found</option>
                                 {% endif %}
                             </select>
-                            <button id="genRoiGenreBtn">Generar ROI por género</button>
+                            <label for="mlBudgetInput">Presupuesto (USD)</label>
+                            <input id="mlBudgetInput" type="number" placeholder="5000000" min="1" step="10000" />
+                            <button id="mlPredictBtn">Predecir</button>
                         </div>
                         <div class="chart-content">
-                            <img id="roiGenreImg" alt="ROI por género" style="max-width:100%;" />
-                        </div>
-                    </div>
-
-                    <div class="chart-item" id="scatterSection">
-                        <h2>Scatter</h2>
-                            <div class="controls">
-                                <label for="scatterX">Variable X</label>
-                                <select id="scatterX">
-                                    {% if numeric_columns and numeric_columns|length > 0 %}
-                                        {% for c in numeric_columns %}
-                                            <option value="{{ c }}">{{ c }}</option>
-                                        {% endfor %}
-                                    {% else %}
-                                        <option disabled>No numeric columns found</option>
-                                    {% endif %}
-                                </select>
-                                <label for="scatterY">Variable Y</label>
-                                <select id="scatterY">
-                                    {% if numeric_columns and numeric_columns|length > 0 %}
-                                        {% for c in numeric_columns %}
-                                            <option value="{{ c }}">{{ c }}</option>
-                                        {% endfor %}
-                                    {% else %}
-                                        <option disabled>No numeric columns found</option>
-                                    {% endif %}
-                                </select>
-                                <button id="genScatterBtn">Generar Scatter</button>
-                            </div>
-                        <div class="chart-content">
-                            <img id="scatterImg" alt="Scatter plot" style="max-width:100%;" />
+                            <div id="mlPredictResult" class="predict-result"></div>
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
         </div>
     </div>
     <script src="/static/js/index.js"></script>
     <script src="/static/js/financial.js"></script>
+    <script src="/static/js/ml.js"></script>
     </body>
     </html>
