@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/styles/scaper.css">
+    <link rel="stylesheet" href="/static/styles/processed.css">
     <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/png" href="{{ request.url_for('static', path='images/palomitas.png') }}">
-    <title>Web Scraping - Data Analysis Cinema</title>
+    <title>Películas procesadas - Data Analysis Cinema</title>
 </head>
 <body>
     <button class="hamburger-btn" id="hamburgerBtn">
@@ -30,21 +30,22 @@
                 <ul>
                     <li><a href="{{ request.url_for('index') }}"><i class="fas fa-home"></i> Inicio</a></li>
                     <li><a href="{{ request.url_for('scraper') }}"><i class="fas fa-globe"></i> Web Scraping</a></li>
-                        <li><a href="/processed">Películas procesadas</a></li>
+                    <li><a href="/processed">Películas procesadas</a></li>
                     <li><a href="{{ request.url_for('financial') }}"><i class="fas fa-chart-line"></i> Análisis Estadístico</a></li>
                 </ul>
             </nav>
         </div>
 
         <div class="content-area">
-            <h1>Web Scraping</h1>
-            <p>Visualización de los datos extraídos usando Web Scrapping, esto para saber que datos se usarán para hacer el análisis.</p>
-                    <div id="wrapper"></div>
+            <h1>Películas procesadas</h1>
+            <p>Tabla generada a partir del JSON tratado por el pipeline.</p>
+
+            <div id="wrapper-processed"></div>
         </div>
     </div>
 
     <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
-    <script src="/static/js/table_scrapper.js"></script>
+    <script src="/static/js/table_processed.js"></script>
     <script src="/static/js/index.js"></script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 import movie
 import pandas as pd
 import numpy as np
+import os
 from googletrans import Translator
 
 #! Limpieza de datos fecha, duración, rating, valoración, presupuesto, recaudación, guionistas, ...
@@ -186,6 +187,35 @@ class Analyzer:
             df['title-translated'] = None
             self.movie.data = df
             return self.movie
+        
+    def transform_to_json(self, path: str = None, filename: str = 'peliculas_procesadas.json', orient: str = None, lines: bool = False, date_format: str = 'iso', force_ascii: bool = False):
+        df = self.movie.data
+        if df is None:
+            return None
+        orient = orient or getattr(self.movie, 'json_orientation', 'records')
+        
+        df2 = df.copy()
+        import json as _json
+        for col in df2.columns:
+            try:
+                if df2[col].apply(lambda x: isinstance(x, (list, tuple))).any():
+                    df2[col] = df2[col].apply(lambda x: ', '.join(map(str, x)) if isinstance(x, (list, tuple)) else x)
+                elif df2[col].apply(lambda x: isinstance(x, dict)).any():
+                    df2[col] = df2[col].apply(lambda x: _json.dumps(x, ensure_ascii=force_ascii) if isinstance(x, dict) else x)
+            except Exception:
+                continue
+        
+        if path:
+            out_dir = os.path.abspath(path)
+        else:
+            base_dir = os.path.dirname(os.path.abspath(self.movie.filepath))
+            out_dir = os.path.join(base_dir, 'processed')
+        os.makedirs(out_dir, exist_ok=True)
+        out_path = os.path.join(out_dir, filename)
+        # Ensure we write with UTF-8 and proper options for grid.js (array of objects)
+        df2.to_json(path_or_buf=out_path, orient=orient, lines=lines, date_format=date_format, force_ascii=force_ascii)
+        return out_path
+
 
     def __init__(self, movie_instance: movie.Movie):
         self.movie = movie_instance

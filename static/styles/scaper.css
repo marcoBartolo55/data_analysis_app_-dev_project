@@ -16,10 +16,13 @@
 }
 
 /* Tabla Grid.js en la página de scraping */
-#wrapper .gridjs-container { max-width: 100%; }
-#wrapper .gridjs-table { width: 100%; font-size: 0.95rem; }
-#wrapper .gridjs-th, #wrapper .gridjs-td { padding: 8px 10px; background-color: whitesmoke;}
-#wrapper .gridjs-tr:nth-child(even) { background: #f9fafb; }
-#wrapper .gridjs-search { margin: 8px 0; }
-#wrapper .gridjs-pagination { margin-top: 8px; }
+#wrapper .gridjs-container, #wrapper2 .gridjs-container { max-width: 100%; }
+#wrapper .gridjs-table, #wrapper2 .gridjs-table { width: 100%; font-size: 0.95rem; }
+#wrapper .gridjs-th, #wrapper .gridjs-td, #wrapper2 .gridjs-th, #wrapper2 .gridjs-td { padding: 8px 10px; background-color: whitesmoke;}
+#wrapper .gridjs-tr:nth-child(even), #wrapper2 .gridjs-tr:nth-child(even) { background: #f9fafb; }
+#wrapper .gridjs-search, #wrapper2 .gridjs-search { margin: 8px 0; }
+#wrapper .gridjs-pagination, #wrapper2 .gridjs-pagination { margin-top: 8px; }
+
+/* Debug panel for fetch logs */
+#fetch-debug { margin: 12px auto; max-width: 1200px; background: #f3f4f6; padding: 10px; border-radius: 6px; font-family: monospace; font-size: 0.9rem; white-space: pre-wrap; max-height: 200px; overflow: auto; color: #111; }
 

@@ -96,6 +96,10 @@ def financial(request: Request):
 def scraper(request: Request):
     return templates.TemplateResponse("scaper.html", {"request": request})
 
+@app.get("/processed")
+def processed(request: Request):
+    return templates.TemplateResponse("processed.html", {"request": request})
+
 # API: Películas (JSON)
 @app.get("/api/peliculas")
 def api_peliculas():
@@ -106,6 +110,19 @@ def api_peliculas():
         return JSONResponse(content=data)
     except FileNotFoundError:
         return JSONResponse(content={"error": "peliculas.json no encontrado"}, status_code=404)
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=500)
+
+# API: Películas procesadas (JSON generado por pipeline)
+@app.get("/api/peliculas/processed")
+def api_peliculas_processed():
+    data_path = os.path.join(BASE_DIR, '../spyder/data/processed/peliculas_procesadas.json')
+    try:
+        with open(data_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        return JSONResponse(content=data)
+    except FileNotFoundError:
+        return JSONResponse(content={"error": "peliculas_procesadas.json no encontrado"}, status_code=404)
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
 

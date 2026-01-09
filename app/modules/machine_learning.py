@@ -64,14 +64,14 @@ class MachineLearning:
         if df.empty:
             raise ValueError('No hay datos suficientes para entrenar el modelo.')
 
-        # Log-transform target to stabilize variance: y = log(1 + revenue)
+        
         y = np.log1p(df['revenue'].astype(float))
         X = df.copy()
-        # Ensure numeric feature columns exist
+        
         for c in self.numeric_features:
             if c not in X.columns:
                 X[c] = np.nan
-        # Median + sensible fallback if median is NaN (e.g., entire column missing)
+        
         medians = X[self.numeric_features].median(numeric_only=True)
         fill_vals = {}
         for c in self.numeric_features:
@@ -117,12 +117,12 @@ class MachineLearning:
         if df.empty:
             raise ValueError('No hay datos para realizar la predicción.')
 
-        # Ensure numeric features exist to avoid KeyErrors
+        
         for c in self.numeric_features:
             if c not in df.columns:
                 df[c] = np.nan
         medians = df[self.numeric_features].median(numeric_only=True)
-        # Fallbacks if medians are NaN
+        
         def fallback(c):
             v = medians.get(c)
             if pd.isna(v):
@@ -149,7 +149,7 @@ class MachineLearning:
             if c not in X_pred.columns:
                 X_pred[c] = ''
 
-        # Model predicts log(1 + revenue); invert transform
+        
         y_pred_log = self.model.predict(X_pred)[0]
         revenue = float(np.expm1(y_pred_log))
         return max(0.0, revenue)

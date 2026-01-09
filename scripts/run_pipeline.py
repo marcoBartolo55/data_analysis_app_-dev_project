@@ -67,6 +67,34 @@ def scatter_plot(x_var, y_var):
     img_path = os.path.join(ROOT, 'static', 'images', 'scatter_varx_vs_vary.png')
     print('Imagen guardada:', os.path.exists(img_path), img_path)
 
+
+def process_and_save_json(out_dir: str = None, filename: str = 'peliculas_procesadas.json', translate: bool = True, detect: bool = True):
+    movie = Movie()
+    print('Datos cargados para procesamiento:', getattr(movie.data, 'shape', None))
+
+    analyzer = Analyzer(movie)
+
+    analyzer.clean_budget_revenue()
+    analyzer.clean_date()
+    analyzer.clean_succesuful()
+    analyzer.clean_duration()
+    print('Filas tras limpieza:', getattr(analyzer.movie.data, 'shape', None))
+
+    if detect:
+        try:
+            analyzer.detect_language()
+        except Exception as e:
+            print('Advertencia: fallo detect_language:', e)
+    if translate:
+        try:
+            analyzer.translate_titles()
+        except Exception as e:
+            print('Advertencia: fallo translate_titles:', e)
+
+    out_path = analyzer.transform_to_json(path=out_dir, filename=filename, orient='records', lines=False, date_format='iso', force_ascii=False)
+    print('Archivo procesado guardado:', os.path.exists(out_path) if out_path else False, out_path)
+    return out_path
+
 def detect_and_translate_titles(save_csv=False):
     movie = Movie()
     print('Datos cargados para detección/traducción:', getattr(movie.data, 'shape', None))
@@ -96,7 +124,7 @@ def detect_and_translate_titles(save_csv=False):
             print('Error al guardar CSV:', e)
 
 def ml_train():
-    # Importar perezosamente para no romper otros endpoints si ML no está disponible
+    # Importar para no romper otros endpoints si ML no está disponible
     try:
         from machine_learning import MachineLearning
     except Exception as e:
@@ -119,7 +147,7 @@ def ml_train():
         raise
 
 def ml_predict(budget: float, genre: str):
-    # Importar perezosamente para no romper otros endpoints si ML no está disponible
+    # Importar para no romper otros endpoints si ML no está disponible
     try:
         from machine_learning import MachineLearning
     except Exception as e:
