@@ -11,7 +11,7 @@ source .venv/bin/activate
 
 # Instalar dependencias
 python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+python -m pip install -r ./requirements.txt
 
 # Arrancar el servidor de desarrollo (desde la raíz del repo)
 uvicorn app.app:app --reload
