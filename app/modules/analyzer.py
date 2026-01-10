@@ -1,8 +1,9 @@
-import movie
 import pandas as pd
 import numpy as np
 import os
 from googletrans import Translator
+
+from app.modules.movie import Movie
 
 #! Limpieza de datos fecha, duración, rating, valoración, presupuesto, recaudación, guionistas, ...
 
@@ -217,5 +218,5 @@ class Analyzer:
         return out_path
 
 
-    def __init__(self, movie_instance: movie.Movie):
+    def __init__(self, movie_instance: Movie):
         self.movie = movie_instance

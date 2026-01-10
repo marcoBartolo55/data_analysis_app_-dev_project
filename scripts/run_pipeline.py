@@ -2,11 +2,13 @@ import os
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(__file__))
-sys.path.insert(0, os.path.join(ROOT, 'app', 'modules'))
 
-from movie import Movie
-from analyzer import Analyzer
-from visualizer import Visualizer
+if ROOT not in sys.path:
+    sys.path.insert(0, ROOT)
+
+from app.modules.movie import Movie
+from app.modules.analyzer import Analyzer
+from app.modules.visualizer import Visualizer
 import matplotlib
 matplotlib.use('Agg')
 
@@ -126,7 +128,7 @@ def detect_and_translate_titles(save_csv=False):
 def ml_train():
     # Importar para no romper otros endpoints si ML no está disponible
     try:
-        from machine_learning import MachineLearning
+        from app.modules.machine_learning import MachineLearning
     except Exception as e:
         raise RuntimeError(f"Machine Learning no disponible: {e}")
 
@@ -149,7 +151,7 @@ def ml_train():
 def ml_predict(budget: float, genre: str):
     # Importar para no romper otros endpoints si ML no está disponible
     try:
-        from machine_learning import MachineLearning
+        from app.modules.machine_learning import MachineLearning
     except Exception as e:
         raise RuntimeError(f"Machine Learning no disponible: {e}")
 

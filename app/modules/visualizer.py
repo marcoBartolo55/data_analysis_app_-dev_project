@@ -1,8 +1,9 @@
-import analyzer
 import matplotlib.pyplot as plt
 import seaborn as sns
 
 import os
+
+from app.modules.analyzer import Analyzer
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
@@ -78,8 +79,10 @@ class Visualizer:
             plt.savefig(out, bbox_inches='tight')
             plt.close()
 
-    def __init__(self, analyzer: analyzer.Analyzer):
+    def __init__(self, analyzer: Analyzer):
         self.analyzer = analyzer
         self.movie = analyzer.movie
         self.data = analyzer.movie.data
+
+
         

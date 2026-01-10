@@ -1,7 +1,8 @@
-import movie
 import numpy as np
 import pandas as pd
 from typing import Optional, Tuple
+
+from app.modules.movie import Movie
 
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
@@ -11,12 +12,13 @@ from sklearn.base import BaseEstimator
 
 
 class MachineLearning:
-    def __init__(self, movie_instance: movie.Movie):
+    def __init__(self, movie_instance: Movie):
         self.movie = movie_instance
         self.model: Optional[BaseEstimator] = None
         self.feature_names: Optional[list] = None
         self.numeric_features = ['budget', 'rating', 'votes', 'duration', 'release_year']
         self.categorical_features = ['primary_genre', 'lan-detected']
+
 
     def _extract_primary_genre(self, df: pd.DataFrame) -> pd.Series:
         if 'genres' in df.columns:
